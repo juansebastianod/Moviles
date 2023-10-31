@@ -6,18 +6,26 @@ import SignUpScreen from './src/screens/Signup';
 import HomeScreen from './src/screens/Home';
 import SearchScreen from './src/screens/Search';
 import MessageScreen from './src/screens/Message';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,DefaultTheme } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import './src/core/fontawesome'
+
+const LightTheme = {
+	...DefaultTheme,
+	colors: {
+		...DefaultTheme.colors,
+		background: 'white'
+	}
+}
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [initialized] = useState(true);
-  const [authenticated] = useState(true);
+  const [authenticated] = useState(false);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={LightTheme} >
       <StatusBar barStyle='dark-content' />
       <Stack.Navigator>
         {!initialized ? (

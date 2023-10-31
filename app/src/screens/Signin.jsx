@@ -1,10 +1,18 @@
-import { SafeAreaView ,Text} from "react-native";
+import { useLayoutEffect } from "react";
+import { SafeAreaView ,Text, View} from "react-native";
 
 
-function SignInScreen() {
+function SignInScreen({ navigation }) {
+
+  useLayoutEffect(()=>{
+    navigation.setOptions({
+        headerShown:false
+    })
+},[])
+
   return (
-    <SafeAreaView>
-      <Text>Sign in</Text>
+    <SafeAreaView style={{flex:1}}>
+      <View></View>
     </SafeAreaView>
   );
 }
