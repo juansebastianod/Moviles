@@ -1,104 +1,102 @@
-import { useLayoutEffect } from "react";
-import { SafeAreaView, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
+import { useLayoutEffect, useState } from "react";
+import { SafeAreaView, Text, TextInput, View, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from "react-native";
 import Title from "../common/Title";
+import Input from "../common/Input";
+import Button from "../common/Button";
 
-function Input({ title }) {
-  return (
-    <View>
-      <Text
-        style={{
-          color: "#70747a",
-          paddingLeft: 30,
-          marginBottom: 10,
-        }}
-      >
-        {title}
-      </Text>
-      <TextInput
-        style={{
-          backgroundColor: "#e1e2e4",
-          borderRadius: 26,
-          height: 52,
-          paddingHorizontal: 16,
-          fontSize: 16,
-        }}
-      />
-    </View>
-  );
-}
 
-function Button({ title }) {
 
-  return (
 
-    <TouchableOpacity
-      style={{
-        backgroundColor: '#202020',
-        height: 52,
-        borderRadius: 13,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 45
-      }}
-    >
-      <Text
-        style={{
-          color: 'white',
-          fontSize: 16,
-          fontWeight: "bold",
-
-        }}
-      >
-        {title}
-      </Text>
-
-    </TouchableOpacity>
-  )
-}
 
 function SignInScreen({ navigation }) {
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [errorUsername, setErrorUsername] = useState('')
+  const [errorPassword, setErrorPassword] = useState('')
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
 
+
+  function onSignIn() {
+
+    console.log("onSign", username, password)
+
+    const failUsername = !username
+
+    if (failUsername) {
+      setErrorUsername('Username not provided')
+    }
+
+    const failPassword = !password
+    if (failPassword) {
+      setErrorPassword('Password not provided')
+    }
+
+    if (failUsername || failPassword) {
+
+      return
+    }
+
+
+  }
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }}>
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <View style={{ alignItems: "center", marginBottom: 40 }}>
-          <Image
-            source={require("../../assets/tora.jpg")}
-            style={{
-              height: 120,
-              width: 120,
-              borderRadius: 50,
-              alignSelf: "center",
-            }}
+    <SafeAreaView style={{ flex: 1}}>
+       <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          
+            <Image
+              source={require("../../assets/tora.jpg")}
+              style={{
+                height: 120,
+                width: 120,
+                borderRadius: 50,
+                alignSelf: "center",
+              }}
+            />
+         
+
+          <Input
+            title="Username"
+            value={username}
+            error={errorUsername}
+            setValue={setUsername}
+            setError={setErrorUsername}
           />
-        </View>
+          <Input
+            title="Password"
+            value={password}
+            error={errorPassword}
+            setValue={setPassword}
+            setError={setErrorPassword}
+            secureTextEntry={true}
+          />
+          <Button title='Sign In' onPress={onSignIn} />
 
-        <Input title="Username" />
-        <Input title="Password" />
-        <Button title='Sign In' />
+          <Text style={{
 
-        <Text style={{
+            textAlign: "center",
+            marginTop: 40
+          }}>
 
-          textAlign: "center",
-          marginTop: 40
-        }}>
+            ¿No tiene una cuenta?
+            <Text
+              style={{
+                color: '#23B198'
+              }}
+              onPress={() => navigation.navigate('SignUp')}
+            > Registrate ahora
+            </Text>
 
-          ¿No tiene una cuenta?
-          <Text
-            style={{
-              color: '#23B198'
-            }}
-            onPress={()=>navigation.navigate('SignUp')}
-          > Registrate ahora
           </Text>
-
-        </Text>
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
