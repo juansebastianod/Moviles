@@ -3,6 +3,8 @@ import { SafeAreaView, Text, TextInput, View, Image, TouchableOpacity, Touchable
 import Title from "../common/Title";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import api from '../core/api'
+//import fetch from 'fetch';
 
 
 
@@ -22,27 +24,50 @@ function SignInScreen({ navigation }) {
   }, []);
 
 
-  function onSignIn() {
-
-    console.log("onSign", username, password)
-
-    const failUsername = !username
-
+  async function onSignIn() {
+    console.log('onSign', username, password);
+  
+    const failUsername = !username;
+  
     if (failUsername) {
-      setErrorUsername('Username not provided')
+      setErrorUsername('Username not provided');
     }
-
-    const failPassword = !password
+  
+    const failPassword = !password;
     if (failPassword) {
-      setErrorPassword('Password not provided')
+      setErrorPassword('Password not provided');
     }
-
+  
     if (failUsername || failPassword) {
-
-      return
+      return;
     }
+  
+    api({
+      method:'POST',
+      url:'/chat/signin/',
+      data:{
+        username:username,
+        password:password
 
 
+      }
+    }).then(response =>{
+      console.log('Response data:', response.data);
+    }).catch(error =>{
+
+      if (error.response) {
+        
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    })
   }
   return (
     <SafeAreaView style={{ flex: 1}}>
