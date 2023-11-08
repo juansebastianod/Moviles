@@ -2,20 +2,25 @@ import { useLayoutEffect, useState } from "react";
 import { Keyboard, KeyboardAvoidingView, SafeAreaView, Text, TouchableWithoutFeedback, View } from "react-native";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import api from '../core/api'
+import util from '../core/utils'
+import useGlobal from "../core/global";
 
 function SignUpScreen({ navigation }) {
+
 
   const [username,setUsername]=useState('')
   const [firstName,setFirstName]=useState('')
   const [lastName,setLastName]=useState('')
-  const [password1,setPassword1]=useState('')
+  const [password,setPassword]=useState('')
   const [password2,setPassword2]=useState('')
 
   const [usernameError,setUsernameError]=useState('')
   const [firstNameError,setFirstNameError]=useState('')
   const [lastNameError,setLastNameError]=useState('')
-  const [password1Error,setPassword1Error]=useState('')
+  const [passwordError,setPasswordError]=useState('')
   const [password2Error,setPassword2Error]=useState('')
+  const login =useGlobal(state => state.authenticated)
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -34,7 +39,7 @@ function SignUpScreen({ navigation }) {
    }
 
    const failFirtName=!firstName 
-
+ 
    if(failFirtName){
 
     setFirstNameError('Campo vacio')
@@ -47,20 +52,20 @@ function SignUpScreen({ navigation }) {
     setLastNameError('Campo vacio')
    }
 
-   const failPassword=!password1 || password1.length<4
-
+   const failPassword=!password || password.length<4
+   
    if(failPassword){
 
-    setPassword1Error('Campo vacio o password muy corta')
+    setPasswordError('Campo vacio o password muy corta')
 
    }
 
-   const failPassword2=password1 !== password2
-
+   const failPassword2 = password !== password2
+ 
    if(failPassword2){
 
     setPassword2Error('No son iguales')
-    setPassword1Error('No son iguales')
+    setPasswordError('No son iguales')
 
    }
 
@@ -73,6 +78,34 @@ function SignUpScreen({ navigation }) {
 
       return 
     }
+
+    api({
+      method:'POST',
+      url:'chat/signup/',
+      data:{
+        username:username,
+        first_name:firstName,
+        last_name:lastName,
+        password:password,
+      }
+    }).then(response =>{
+      util.log(response.data)
+      login(response.data)
+
+    }).catch(error =>{
+      if (error.response) {
+        
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    })
     
   }
   return (
@@ -123,10 +156,10 @@ function SignUpScreen({ navigation }) {
            />
         <Input 
            title='Password' 
-           value={password1}
-           error={password1Error}
-           setValue={setPassword1}
-           setError={setPassword1Error}
+           value={password}
+           error={passwordError}
+           setValue={setPassword}
+           setError={setPasswordError}
            secureTextEntry={true}
            />
         <Input 

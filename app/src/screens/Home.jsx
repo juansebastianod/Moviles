@@ -42,7 +42,7 @@ function HomeScreen({ navigation }) {
 				),
 				tabBarIcon: ({ focused, color, size }) => {
 					const icons = {
-						Requests: 'bell',
+						Request: 'bell',
 						Friends: 'inbox',
 						Profile: 'user'
 					}
@@ -55,7 +55,7 @@ function HomeScreen({ navigation }) {
 				tabBarShowLabel: false
 			})}
 		>
-            <Tab.Screen name="Requests" component={RequestsScreen} />
+            <Tab.Screen name="Request" component={RequestsScreen} />
 			<Tab.Screen name="Friends"  component={FriendsScreen} />
 			<Tab.Screen name="Profile"  component={ProfileScreen} />
     </Tab.Navigator>

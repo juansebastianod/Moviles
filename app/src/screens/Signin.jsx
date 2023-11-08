@@ -4,6 +4,8 @@ import Title from "../common/Title";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import api from '../core/api'
+import util from '../core/utils'
+import useGlobal from "../core/global";
 //import fetch from 'fetch';
 
 
@@ -17,6 +19,10 @@ function SignInScreen({ navigation }) {
 
   const [errorUsername, setErrorUsername] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
+
+  const login =useGlobal(state => state.login)
+  const authenticated= useGlobal(state => state.authenticated)
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -52,7 +58,13 @@ function SignInScreen({ navigation }) {
 
       }
     }).then(response =>{
-      console.log('Response data:', response.data);
+     
+      util.log('Response data:', response.data);
+      login(response.data)
+
+      console.log("sebas")
+      console.log(authenticated)
+
     }).catch(error =>{
 
       if (error.response) {
