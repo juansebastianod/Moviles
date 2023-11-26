@@ -22,7 +22,7 @@ function SignInScreen({ navigation }) {
 
   const login =useGlobal(state => state.login)
   const authenticated= useGlobal(state => state.authenticated)
-
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -58,9 +58,9 @@ function SignInScreen({ navigation }) {
 
       }
     }).then(response =>{
-     
       util.log('Response data:', response.data);
-      login(response.data)
+
+      login(response.data.user)
 
       console.log("sebas")
       console.log(authenticated)

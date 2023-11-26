@@ -89,6 +89,8 @@ function SignUpScreen({ navigation }) {
         password:password,
       }
     }).then(response =>{
+
+      
       util.log(response.data)
       login(response.data)
 
@@ -184,7 +186,7 @@ function SignUpScreen({ navigation }) {
             style={{
               color: '#23B198'
             }}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('SignIn')}
           > Acceder ahora
           </Text>
 

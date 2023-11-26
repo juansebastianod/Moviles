@@ -7,16 +7,28 @@ import FriendsScreen from "./Friends"
 import ProfileScreen from "./Profile"
 import { TouchableOpacity, View ,Image } from 'react-native'
 
-import { useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
+import useGlobal from '../core/global'
 
 const Tab = createBottomTabNavigator()
 
 function HomeScreen({ navigation }) {
+	const socketConnect = useGlobal(state => state.socketConnet)
+	const socketClose = useGlobal(state => state.socketClose)
 	useLayoutEffect(() => {
 		navigation.setOptions({
 			headerShown: false
 		})
 	}, [])
+
+	useEffect(()=>{
+		socketConnect()
+		return () => {
+
+			socketClose()
+		}
+
+	},[])
 	
 	return (
 		<Tab.Navigator 
