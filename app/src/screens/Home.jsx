@@ -42,20 +42,11 @@ function HomeScreen({ navigation }) {
 						
 					</View>
 				),
-				headerRight: () => (
-					<TouchableOpacity>
-						<FontAwesomeIcon 
-							style={{ marginRight: 16 }}
-							icon='magnifying-glass' 
-							size={22} 
-							color='#404040'
-						/>
-					</TouchableOpacity>
-				),
+				
 				tabBarIcon: ({ focused, color, size }) => {
 					const icons = {
-						Request: 'bell',
-						Friends: 'inbox',
+						HERO: 'heart',
+						Comics: 'book',
 						Profile: 'user'
 					}
 					const icon = icons[route.name]
@@ -67,8 +58,8 @@ function HomeScreen({ navigation }) {
 				tabBarShowLabel: false
 			})}
 		>
-            <Tab.Screen name="Request" component={RequestsScreen} />
-			<Tab.Screen name="Friends"  component={FriendsScreen} />
+            <Tab.Screen name="HERO" component={RequestsScreen} />
+			<Tab.Screen name="Comics"  component={FriendsScreen} />
 			<Tab.Screen name="Profile"  component={ProfileScreen} />
     </Tab.Navigator>
 	)

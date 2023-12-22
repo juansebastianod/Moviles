@@ -59,7 +59,7 @@ const init =useGlobal(state => state.init)
             }}>          
             <StatusBar barStyle='light-content'/>
             <Animated.View style={[{ transform:[{translateY}]}]}>
-                <Title text='RealtimeChat' color='#9900FF'/>
+                <Title text='MARVEL' color='#9900FF'/>
 
 
                 <Button title="SignIn" onPress={()=>Into('entrar')} />
